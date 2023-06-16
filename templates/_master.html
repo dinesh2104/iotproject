@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "_head.html" %}
+{% if session.authenticated %}
+
+<body class="app">
+    {% include "_header.html" %}
+
+    {% block main %}
+
+    {% endblock %}
+    {% include"_footer.html" %}
+
+
+</body>
+{% else %}
+{% include"login.html" %}
+
+{% endif %}
+
+</html>

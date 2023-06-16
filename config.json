@@ -1,0 +1,6 @@
+{
+    "mongodb_connection_string": "mongodb://IOTLab:Dinesh%40123.@mongodb.selfmade.ninja:27017/?authSource=users",
+    "mongodb_database": "IOTLab_test",
+    "basename": "/iotcloud",
+    "secret_key": "vbwrinxiqxnqwiwew"
+}
