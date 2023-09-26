@@ -4,14 +4,15 @@ sys.path.append("/home/dineshsdk21/Example/iotweb/")
 from flask import Flask,render_template,session,request,redirect,url_for
 from src import get_config
 from src.User import User
-from blueprint import home,api,files
+from blueprint import home,api,files,motion,dialogs
 
 application=app = Flask(__name__,static_folder="assets",static_url_path="/")
 app.secret_key=get_config('secret_key') 
 app.register_blueprint(home.bp)
 app.register_blueprint(api.bp)
 app.register_blueprint(files.bp)
-
+app.register_blueprint(motion.bp)
+app.register_blueprint(dialogs.bp)
 
 @app.route("/error")
 def error():
@@ -20,6 +21,7 @@ def error():
 @app.route("/test")
 def test():
    return render_template("test.html")
+
 
 @app.route("/reset-password")
 def resetPassword():

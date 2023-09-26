@@ -1,0 +1,54 @@
+{% extends "_master.html" %}
+
+{% block main %}
+<div class="app-wrapper">
+    <div class="app-content pt-3 p-md-3 p-lg-4">
+        <div class="container-xl">
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header pb-0">
+
+                  <div class="d-flex align-items-center mb-2">
+                    <strong><h3>API Keys for IoT Devices</h3></strong>
+                    <div class="ms-auto"> 
+                        <button class="btn btn-info btn-add-api-group m-2">Add Group</button>
+                        <button class="btn btn-primary btn-add-api-key">Add API key</button> 
+                        <button class="btn btn-secondary btn-del-group">Delete Group</button> 
+                    </div>
+
+                  </div>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">API Name</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">API Key</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Group</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Last Seen</th>
+                                <th class="text-secondary opacity-7"></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tbody id="api_key_table">
+                                {% for key in api_keys %}
+                                    {% include 'api_key/api_key_rows.html' %}
+                                {% endfor %}
+                            </tbody>
+    
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

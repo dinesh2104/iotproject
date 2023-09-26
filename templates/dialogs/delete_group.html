@@ -1,0 +1,10 @@
+<form>
+    <div class="form-group">
+        <label for="api-group">Group</label>
+        <select class="form-control" id="api-group">
+          {% for group in groups %}
+          <option value="{{ group.id }}">{{ group.name }}</option>
+          {% endfor %}
+        </select>
+    </div>
+</form>

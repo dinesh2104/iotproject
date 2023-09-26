@@ -10,13 +10,17 @@
     {% block main %}
 
     {% endblock %}
+
+    {% include "_dummy_modal.html" %}
+    
     {% include"_footer.html" %}
 
-
+    
 </body>
 {% else %}
 {% include"login.html" %}
 
 {% endif %}
+
 
 </html>
