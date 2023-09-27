@@ -95,6 +95,7 @@ def authenticate():
             session['authenticated'] = True
             session['username']=username
             session['sessid']=sessid
+            session['type']='web'
             # return {
             #    "message": "Successfully Authenticated",
             #    "authenticated": True
