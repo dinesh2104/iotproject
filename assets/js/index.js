@@ -128,7 +128,10 @@ $(".btn-add-api-group").on("click", function () {
 
 });
 
+// Create function for Dynamic add key to initialized the enable  and delete listeners.
+
 function addApiKeyRowListeners() {
+    // We are doing off  to avoid double click or double initialisation issue.
     $('.btn-api-enable').off('click');
     $('.btn-api-enable').on('click', function () {
         var id = $(this).attr('id');
@@ -179,7 +182,7 @@ function addApiKeyRowListeners() {
 
 addApiKeyRowListeners();
 
-// Event for Delete Grouop Button
+// Event for Delete Group Button
 
 $(".btn-del-group").on('click', function () {
     $.get("/api_group/delete/dialog", function (data, status) {
