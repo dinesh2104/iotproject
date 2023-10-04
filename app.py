@@ -4,10 +4,10 @@ sys.path.append("/home/dineshsdk21/Example/iotweb/")
 from flask import Flask,render_template,session,request,redirect,url_for
 from src import get_config
 from src.User import User
-from blueprint import home,api,files,motion,dialogs
+from blueprint import home,api,files,motion,dialogs,oauth
 from src.Api import Api
-
-
+from authlib.integrations.flask_client import OAuth
+from authlib.common.security import generate_token
 
 
 application=app = Flask(__name__,static_folder="assets",static_url_path="/")
@@ -17,10 +17,15 @@ app.register_blueprint(api.bp)
 app.register_blueprint(files.bp)
 app.register_blueprint(motion.bp)
 app.register_blueprint(dialogs.bp)
+app.register_blueprint(oauth.bp)
+
 
 @app.before_request
 def before_request_hook():
    if session.get('type') == 'web':
+      return
+   
+   if session.get('type')=='oauth':
       return
    
    auth_header = request.headers.get('Authorization')
@@ -39,6 +44,7 @@ def before_request_hook():
       session['authenticated'] = False
       if 'username' in session:
          del session['username']
+
 
 
 @app.route("/error")

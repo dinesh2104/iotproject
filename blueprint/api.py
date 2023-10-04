@@ -122,6 +122,10 @@ def authenticate():
 
 @bp.route("/deauth")
 def deauth():
+   if session.get('type')=='oauth':
+      session.clear()
+      return redirect(url_for("home.dashboard"))
+
    if session.get('authenticated'): #TODO: Need more validattion like login expiry
       #Remove / invalidate session from database
       sid=session['sessid']
