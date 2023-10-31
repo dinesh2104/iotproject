@@ -1,5 +1,6 @@
 from flask import Blueprint,render_template,redirect,url_for,request,session
 from src.Api import Api
+from src.User import User
 from src.Group import Group
 from src import md5_hash, time_ago, mask
 
@@ -7,11 +8,54 @@ bp=Blueprint("home",__name__,url_prefix="/")
 
 @bp.route('/dashboard')
 def dashboard():
-   return render_template("dashboard.html",session=session)
+   user=User(session['username']).collection
+   return render_template("dashboard.html",session=session,user=user)
 
 @bp.route('/')
 def index():
-   return render_template("dashboard.html",session=session)
+   user=User(session['username']).collection
+   return render_template("dashboard.html",session=session,user=user)
+
+@bp.route("/reset-password")
+def resetPassword():
+   return render_template("reset-password.html")
+
+# @bp.route("/settings")
+# def setting():
+#    return render_template("setting.html")
+
+@bp.route("/notification")
+def notification():
+   return render_template("notification.html")
+
+@bp.route("/account")
+def account():
+   user=User(session['username']).collection
+   return render_template("accountDetail.html",user=user)
+
+
+@bp.route('/signup')
+def signup():
+   return render_template("signup.html",session=session)
+
+#Email confirmation route
+@bp.route("/confirm/<token>")
+def confirm_email(token):
+   email = User.confirm_token(token)
+   try:
+      currentUser=User(email).collection
+      if currentUser['active'] and currentUser['activate_token']==token:
+         return "Account already confirmed."
+      elif currentUser['activate_token']!=token:
+         return "The confirmation link is invalid or has expired."
+      currentUser['active']=True
+      print(currentUser)
+      return ("You have confirmed your account. Thanks!")
+   except Exception as e:
+      return "The confirmation link is invalid or has expired."
+   return redirect(url_for("home.dashborad"))
+
+#Other Apis
 
 @bp.route("/api_keys")
 def api_keys():
@@ -67,3 +111,12 @@ def enable_api_key():
    return {
       'status': api.collection.active
    }, 200
+
+
+@bp.route("/api_profile/update/<field>")
+def showUpdateNameTemplate(field):
+   return render_template('profile/profile_update.html',field=field)
+
+@bp.route("/api_profile/update_password")
+def showUpdatePasswordTemplate():
+   return render_template('profile/profile_password.html');

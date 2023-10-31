@@ -4,7 +4,7 @@ sys.path.append("/home/dineshsdk21/Example/iotweb/")
 from flask import Flask,render_template,session,request,redirect,url_for
 from src import get_config
 from src.User import User
-from blueprint import home,api,files,motion,dialogs,oauth
+from blueprint import home,api,files,motion,dialogs,oauth,profile_api
 from src.Api import Api
 from authlib.integrations.flask_client import OAuth
 from authlib.common.security import generate_token
@@ -18,6 +18,7 @@ app.register_blueprint(files.bp)
 app.register_blueprint(motion.bp)
 app.register_blueprint(dialogs.bp)
 app.register_blueprint(oauth.bp)
+app.register_blueprint(profile_api.bp);
 
 
 @app.before_request
@@ -54,30 +55,6 @@ def error():
 @app.route("/test")
 def test():
    return render_template("test.html")
-
-
-@app.route("/reset-password")
-def resetPassword():
-   return render_template("reset-password.html")
-
-@app.route("/settings")
-def setting():
-   return render_template("setting.html")
-
-@app.route("/notification")
-def notification():
-   return render_template("notification.html")
-
-@app.route("/account")
-def account():
-   return render_template("accountDetail.html")
-
-
-
-@app.route('/signup')
-def signup():
-   return render_template("signup.html",session=session)
-
    
 
 if __name__ == '__main__':

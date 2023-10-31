@@ -4,5 +4,7 @@
     "basename": "/iotcloud",
     "secret_key": "vbwrinxiqxnqwiwew",
     "client_id": "256594760237-vfouqvireumirhdj6g279ifhfgr4grrf.apps.googleusercontent.com",
-    "client_secret": "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"
+    "client_secret": "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",
+    "SECURITY_PASSWORD_SALT": "simple",
+    "email_verify_key": "ema_live_IoOviud7ZSBXS72ixQaD3RHaBudRPiesFCuK38kV"
 }

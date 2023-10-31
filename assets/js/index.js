@@ -210,5 +210,115 @@ $(".btn-del-group").on('click', function () {
     });
 })
 
+//Signup btn clicked Event
+
+$('#btn-sub').on('click', function (e) {
+    var name = $('#name').val();
+    var email = $('#email').val();
+    var password = $('#password').val();
+    var username = $('#username').val();
+
+    if (!name || !email || !password || !username) {
+        d = new Toast("Message", "", "Form show not be empty", { placement: "top-center" });
+        d.show();
+        return;
+    }
+
+    var data = {
+        name: name,
+        email: email,
+        password: password,
+        username: username
+    };
+
+    // Send a POST request to the registration API
+    $.ajax({
+        type: "POST",
+        url: "/api/v1/register",
+        data: data,
+        success: function (response) {
+            // Handle a successful response from the API
+            //console.log("Registration successful:", response);
+            d = new Toast("Message", "", response['message'], { placement: "top-center" });
+            d.show();
+            $(`#${d.cloneId}`).on('hidden.bs.toast', function () {
+                window.location.href = '/';
+            });
+
+
+        },
+        error: function (xhr, status, error) {
+            // Handle errors from the API
+            console.error("Registration failed:", error);
+            d = new Toast("Message", "", error['message'], { placement: "top - center" });
+            d.show();
+        }
+    });
+})
+
+
+// Account information change listener
+
+$("#changeName").on('click', function (e) {
+    e.preventDefault();
+    $.get("/api_profile/update/Name", function (data, status) {
+        d = new Dialog("Profile Update", data);
+        d.setButtons([{
+            "name": "Update",
+            "class": "btn-success btn-delete-group",
+            "onClick": function (event) {
+                modal = event.data.modal;
+                name = modal.find("#api-name").val();
+
+                $.post("/api/profile_update/Name", { "name": name }, function (data, status) {
+                    var modal = $(event.data.modal);
+                    $(modal).modal('hide');
+                    t = new Toast("Message", "", data.message, { placement: 'top-center' });
+                    t.show();
+                    $("#namefield").html(name);
+                });
+            }
+        }, {
+            "name": "close",
+            "class": "btn-warning",
+            "dismiss": true
+        }
+        ]);
+        d.show();
+    });
+
+})
+
+$("#changePassword").on('click', function (e) {
+    e.preventDefault();
+
+    $.get("/api_profile/update_password", function (data, status) {
+        d = new Dialog("Profile Update", data);
+        d.setButtons([{
+            "name": "Update",
+            "class": "btn-success btn-delete-group",
+            "onClick": function (event) {
+                modal = event.data.modal;
+                password = modal.find("#api-name").val();
+
+
+                $.post("/api/profile_update_password", { "password": password }, function (data, status) {
+                    var modal = $(event.data.modal);
+                    $(modal).modal('hide');
+                    t = new Toast("Message", "", data.message, { placement: 'top-center' });
+                    t.show();
+                    $("#namefield").html(name);
+                });
+            }
+        }, {
+            "name": "close",
+            "class": "btn-warning",
+            "dismiss": true
+        }
+        ]);
+        d.show();
+    });
+
+})
 
 

@@ -1,1 +1,5 @@
-KeyCloak for SAML
+- KeyCloak for SAML
+
+29/10
+- Fix the Register
+- Implement SAML based auth

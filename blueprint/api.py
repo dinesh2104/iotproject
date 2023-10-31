@@ -14,6 +14,7 @@ def register():
       password = request.form['password']
       name = request.form['name']
       email = request.form['email']
+      #Todo: To check whether user exisit with same name
       try:
          uid = User.register(username, password, password, name, email)
          return {
