@@ -26,7 +26,8 @@ def resetPassword():
 
 @bp.route("/notification")
 def notification():
-   return render_template("notification.html")
+   user=User(session['username']).collection
+   return render_template("notification.html",user=user)
 
 @bp.route("/account")
 def account():
@@ -59,9 +60,10 @@ def confirm_email(token):
 
 @bp.route("/api_keys")
 def api_keys():
+   user=User(session['username']).collection
    groups = list(Group.get_groups())
    api_keys = Api.get_all_keys(session)
-   return render_template('apikey.html', session=session, api_keys=api_keys, groups=groups, time_ago=time_ago, mask=mask)
+   return render_template('apikey.html', session=session, api_keys=api_keys, groups=groups, time_ago=time_ago, mask=mask,user=user)
 
 @bp.route("/api_keys/row")
 def api_keys_row():
@@ -120,3 +122,7 @@ def showUpdateNameTemplate(field):
 @bp.route("/api_profile/update_password")
 def showUpdatePasswordTemplate():
    return render_template('profile/profile_password.html');
+
+@bp.route("/api_profile/update_image")
+def showImageUploadTemplate():
+   return render_template('profile/imageupload.html');

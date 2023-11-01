@@ -322,3 +322,48 @@ $("#changePassword").on('click', function (e) {
 })
 
 
+$("#changeImage").on('click', function (e) {
+    e.preventDefault();
+
+    $.get("/api_profile/update_image", function (data, status) {
+        d = new Dialog("Profile Update", data);
+        d.setButtons([{
+            "name": "Upload",
+            "class": "btn-success btn-delete-group",
+            "onClick": function (event) {
+                modal = event.data.modal;
+                $(document).ready(function () {
+                    input = $("#imageform");
+                    var fd = new FormData();
+                    console.log(input);
+                    fd.append('file', input[0].files[0]);
+
+                    $.ajax({
+                        url: '/api/v1/upload',
+                        data: fd,
+                        processData: false,
+                        contentType: false,
+                        type: 'POST',
+                        success: function (data) {
+                            var modal = $(event.data.modal);
+                            $(modal).modal('hide');
+                            t = new Toast("Message", "", data.message, { placement: 'top-center' });
+                            t.show();
+                            $("#namefield").html(name);
+                            location.reload();
+                        }
+                    });
+                });
+            }
+        }, {
+            "name": "close",
+            "class": "btn-warning",
+            "dismiss": true
+        }
+        ]);
+        d.show();
+    });
+
+})
+
+

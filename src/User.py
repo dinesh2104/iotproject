@@ -34,6 +34,9 @@ class User:
     def changeName(self,newName):
         self.collection['name']=newName
 
+    def changeImageUrl(self,imageurl):
+        self.collection['image_url']=imageurl
+
     def changePassword(self,newPasword):
         salt=bcrypt.gensalt()
         hashpass=bcrypt.hashpw(newPasword.encode(),salt)

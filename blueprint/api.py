@@ -4,6 +4,11 @@ from src.User import User
 from src.Session import Session
 from src.Group import Group
 from src.Api import Api
+from werkzeug.utils import secure_filename
+from flask import send_from_directory
+import os
+import hashlib
+
 
 bp=Blueprint("api",__name__,url_prefix="/api/v1")
 
@@ -144,3 +149,52 @@ def deauth():
          "message": "Already deauthenticated",
          "authenticated": False
       }, 200
+   
+#Image Upload Api
+UPLOAD_FOLDER = '/home/dineshsdk21/Example/iotweb/assets/images/profiles'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def md5_hash(input_string):
+    # Create an MD5 hash object
+   md5 = hashlib.md5()
+
+    # Encode the input string as bytes and update the hash object
+   md5.update(input_string.encode('utf-8'))
+
+    # Get the hexadecimal representation of the MD5 hash
+   hashed_string = md5.hexdigest()
+
+   return hashed_string
+
+@bp.route('/upload', methods=['POST'])
+def upload_file():
+   username=session['username']
+   if request.method == 'POST':
+      if 'file' not in request.files:
+         return {
+         "message": "File Not provided"
+         }, 200
+      file = request.files['file']  
+      if file.filename == '':
+            return{
+            "message": "No file Selected"
+            }, 200
+      if file and allowed_file(file.filename):
+         filename = md5_hash(username);
+         file.save(os.path.join(UPLOAD_FOLDER, filename))
+         user=User(username)
+         user.changeImageUrl("/images/profiles/"+filename)
+         return {
+         "message": "Profile Image Uploaded Successfully",
+         "path":filename
+         }, 200
+      
+@bp.route('/file/<filename>')
+def uploaded_file(filename):
+   filename = secure_filename(filename)
+   return send_from_directory(UPLOAD_FOLDER,filename)
